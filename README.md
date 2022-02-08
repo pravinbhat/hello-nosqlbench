@@ -22,7 +22,7 @@
 ```
 * Command-line based: Linux binary or JAR executable 
 ``` 
-JAR option needs `JRE 11+` (preferably `JRE 17+`) 
+JAR option needs minimum `JRE 11+` (preferably `JRE 17+`) 
 ```
 * Scale is difficult to estimate, sometimes a good data-model on paper may not scale in practice. Always verify using a stress testing tool.
 ``` 
@@ -32,7 +32,7 @@ NoSQLBench is a powerful tool for serious (yet simple) stress testing
 ## Workloads
 * Created using Blocks, Statements, Cycles, Tags, Bindings, Params
 * Bindings: Key to use NoSQLBench effectively 
-* Test workloads using `STDOUT` driver & when execute in Cassandra using `CQL` driver
+* Test workloads using `STDOUT` driver and use `CQL` driver to run against Cassandra
 
 ## Run workloads 
 ```
