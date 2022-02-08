@@ -1,7 +1,7 @@
 ## Helpful links
 * [NoSQLBench Docs](https://docs.nosqlbench.io/)
-* [CQLSH for Astra](https://downloads.datastax.com/#cqlsh)
-* [Cassandra cluster manager (CCM)](https://github.com/riptano/ccm)
+* [Binding function docs](https://docs.nosqlbench.io/docs/bindings/binding-concepts/)
+
 
 ## Why performance testing: 
 * Never take workloads live w/o stress testing
@@ -31,7 +31,7 @@ NoSQLBench is a powerful tool for serious (yet simple) stress testing
 
 ## Workloads
 * Created using Blocks, Statements, Cycles, Tags, Bindings, Params
-* Bindings: Key to use NoSQLBench effectively [see binding function docs here](https://docs.nosqlbench.io/docs/bindings/binding-concepts/)
+* Bindings: Key to use NoSQLBench effectively 
 * Test workloads using `STDOUT` driver & when execute in Cassandra using `CQL` driver
 
 ## Run workloads 
