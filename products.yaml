@@ -1,0 +1,40 @@
+#java -jar nb.jar start driver=cql workload=/<path-to-workload-file>/products tags=phase:schema
+#java -jar nb.jar start driver=cql workload=/<path-to-workload-file>/products tags=phase:main cycles=10
+
+blocks:
+  - name: Create schema
+    tags:
+      phase: schema
+    statements:
+      - create-keyspace: |
+          create keyspace if not exists albertsons with replication = {'class':'SimpleStrategy', 'replication_factor':'1'};
+      - create-table: |
+          create table if not exists albertsons.product (
+          item_id uuid,
+          product_id uuid,
+          year_bucket text,
+          item_added_dt timestamp,
+          product_type text,
+          location text,
+          name text,
+          description text,
+          price double,
+          primary key ((product_id,year_bucket), item_added_dt));
+
+  - name: Load data
+    bindings:
+      item_id: Identity(); ToHashedUUID();
+      product_id: Mod(5); ToHashedUUID();
+      year_bucket: WeightedStrings('1514786400000:1;1546322400000:1;1577858400000:1'); ToLong(); AddHashRange(0L,31536000000L); SaveLong('cluster_id'); StringDateWrapper('YYYY');
+      item_added_dt: LoadLong('cluster_id'); ToDate();
+      product_type: WeightedStrings('Orage:0.3;Grapes:0.1;Apple:0.2;Potato:0.25;Onion:0.15');
+      location: WeightedStrings('FL:.4;NC:.2;CA:.3;NY:.1');
+      name: Template('Product {}', Identity());
+      desc: CSVFrequencySampler('product.csv','product_desc');
+      price: Uniform(5,18); ToDouble();
+    statements:
+      - add_products: |
+          insert into albertsons.product (item_id, product_id, year_bucket, item_added_dt, product_type, location, name, description, price)
+          values ( {item_id}, {product_id}, {year_bucket}, {item_added_dt}, {product_type}, {location}, {name}, {desc}, {price});
+        tags:
+          phase: main

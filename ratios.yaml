@@ -1,0 +1,38 @@
+# java -jar nb.jar start driver=stdout workload=/<path-to-workload-file>/ratios cycles=21
+
+name: Workload 1
+bindings:
+  b1: Uniform(1, 5)
+blocks:
+  - name: Block 1
+    params:
+      ratio: 4
+    bindings:
+      b2: Uniform(10, 18)
+      b3: Uniform(21, 75)
+    statements:
+      - s1: |
+          S1 {b1}, {b2}, {b3}
+        params:
+          ratio: 2
+        tags:
+          name: s1
+      - s2: |
+          S2 {b1}, {b2}, {b3}
+        params:
+          ratio: 3
+        tags:
+          name: s2
+  - name: Block 2
+    params:
+      ratio: 1
+    bindings:
+      b1: Uniform(6, 9)
+      b4: Combinations('A-Z;a-z;0-9;@;A-Z;a-z;0-9;')
+    statements:
+      - s3: |
+          S3 {b1}, {b4}.com
+        params:
+          ratio: 2
+        tags:
+          name: b2s1
